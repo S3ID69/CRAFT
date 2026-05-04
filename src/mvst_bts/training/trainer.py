@@ -215,7 +215,7 @@ class Trainer:
                 logits2 = self.model.classifier(fused2)
                 loss2 = self.criterion(
                     logits2,
-                    soft_labels if soft_labels is not None else labels_aug,
+                    soft_labels if (soft_labels is not None and isinstance(self.criterion, SoftFocalLoss)) else labels_aug,
                 )
                 loss2.backward()
                 self.asam.descent_step()
