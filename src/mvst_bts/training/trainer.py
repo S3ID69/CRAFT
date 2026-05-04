@@ -211,12 +211,11 @@ class Trainer:
                 outputs2 = self.model(fine, coarse, meta)
                 fused2   = outputs2["fused"]
                 if self.rep_augment is not None:
-                    fused2, _ = self.rep_augment(fused2, labels)
+                    fused2, labels_aug2 = self.rep_augment(fused2, labels)
+                else:
+                    labels_aug2 = labels
                 logits2 = self.model.classifier(fused2)
-                loss2 = self.criterion(
-                    logits2,
-                    soft_labels if (soft_labels is not None and isinstance(self.criterion, SoftFocalLoss)) else labels_aug,
-                )
+                loss2 = self.criterion(logits2, labels_aug2)
                 loss2.backward()
                 self.asam.descent_step()
             else:
