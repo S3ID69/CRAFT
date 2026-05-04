@@ -262,13 +262,16 @@ def extract_cycles(
     print(f"  Total cycles extracted : {len(df)}")
     print(f"  Skipped recordings     : {skipped}")
     print(f"  Saved to               : {output_csv}")
-    print(f"\n  Label distribution:")
-    for label, count in df["label"].value_counts().items():
-        pct = 100 * count / len(df)
-        print(f"    {label:10s}: {count:5d}  ({pct:.1f}%)")
-    print(f"\n  Split distribution:")
-    for split, count in df["split"].value_counts().items():
-        print(f"    {split:6s}: {count:5d} cycles")
+    if len(df) > 0:
+        print(f"\n  Label distribution:")
+        for label, count in df["label"].value_counts().items():
+            pct = 100 * count / len(df)
+            print(f"    {label:10s}: {count:5d}  ({pct:.1f}%)")
+        print(f"\n  Split distribution:")
+        for split, count in df["split"].value_counts().items():
+            print(f"    {split:6s}: {count:5d} cycles")
+    else:
+        print("\n  WARNING: No cycles extracted. Check --raw_dir path.")
     print(f"{'='*55}\n")
 
     return df
