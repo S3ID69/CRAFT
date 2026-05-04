@@ -215,7 +215,13 @@ class Trainer:
                 else:
                     labels_aug2 = labels
                 logits2 = self.model.classifier(fused2)
-                loss2 = self.criterion(logits2, labels_aug2)
+                if isinstance(self.criterion, SoftFocalLoss):
+                    soft_labels2 = torch.nn.functional.one_hot(
+                        labels_aug2, num_classes=4
+                    ).float()
+                    loss2 = self.criterion(logits2, soft_labels2)
+                else:
+                    loss2 = self.criterion(logits2, labels_aug2)
                 loss2.backward()
                 self.asam.descent_step()
             else:
