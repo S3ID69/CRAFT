@@ -1,13 +1,14 @@
-from .preprocess import bandpass_filter, resample_audio, pad_audio, z_norm
-from .dataset import ICBHIDataset, collate_fn
-from .spectrograms import compute_mel_spectrogram
+from .preprocess import bandpass_filter, pad_or_truncate, z_normalize, load_and_preprocess
+from .dataset import ICBHIDataset, build_weighted_sampler, collate_fn
+from .spectrograms import compute_dual_spectrograms
 
 __all__ = [
     "bandpass_filter",
-    "resample_audio",
-    "pad_audio",
-    "z_norm",
+    "pad_or_truncate",
+    "z_normalize",
+    "load_and_preprocess",
     "ICBHIDataset",
+    "build_weighted_sampler",
     "collate_fn",
-    "compute_mel_spectrogram",
+    "compute_dual_spectrograms",
 ]
