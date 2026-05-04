@@ -1,5 +1,5 @@
-from .spec_augment import spec_augment
-from .patch_mix import patch_mix
-from .rep_augment import rep_augment
+from .spec_augment import SpecAugment
+from .patch_mix import PatchMixBatch
+from .rep_augment import RepAugment
 
-__all__ = ["spec_augment", "patch_mix", "rep_augment"]
+__all__ = ["SpecAugment", "PatchMixBatch", "RepAugment"]
