@@ -62,8 +62,8 @@ class PatchMixBatch:
             soft_labels:  (B, num_classes) float — one-hot if no mix, soft if mixed
         """
         B = fine_specs.shape[0]
-        # Compute one_hot on CPU to avoid sm_60 kernel compatibility issues
-        soft_labels = F.one_hot(labels.cpu(), num_classes=self.num_classes).float().to(labels.device)
+        # Start with hard one-hot labels
+        soft_labels = F.one_hot(labels, num_classes=self.num_classes).float()
 
         fine_out   = fine_specs.clone()
         coarse_out = coarse_specs.clone()
@@ -87,7 +87,7 @@ class PatchMixBatch:
             coarse_out[i] = self._mix_patches(coarse_specs[i], coarse_specs[j], lam)
 
             # Soft label: (1-lam) * label_A + lam * label_B
-            label_j_onehot = F.one_hot(labels[j].cpu(), num_classes=self.num_classes).float().to(labels.device)
+            label_j_onehot = F.one_hot(labels[j], num_classes=self.num_classes).float()
             soft_labels[i] = (1.0 - lam) * soft_labels[i] + lam * label_j_onehot
 
         return fine_out, coarse_out, soft_labels
